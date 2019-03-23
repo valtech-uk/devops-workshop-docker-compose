@@ -1,0 +1,15 @@
+stages:
+  - build
+  - test
+
+image: registry.gitlab.com/jakubigla/docker-compose-image
+
+api:
+  stage: build
+  before_script:
+    - docker --version
+    - docker-compose --version
+  script:
+    - docker-compose build api
+  tags:
+    - docker

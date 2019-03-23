@@ -16,7 +16,7 @@ sonar:
 db-truncate:
 	@docker-compose up -d db
 	@docker-compose exec -T db sh -c \
-		'exec mysql -u$$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE' <<< "TRUNCATE notes;"
+		'exec mysql -u$$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE' <<< "TRUNCATE notes;" 2> /dev/null
 
 postman: db-truncate
 	@docker-compose run --rm postman
