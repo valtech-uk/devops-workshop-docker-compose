@@ -14,5 +14,16 @@ api:
     - docker-compose --version
   script:
     - docker-compose build api
+    - docker-compose push api
+  tags:
+    - docker
+
+integration:
+  stage: test
+  before_script:
+    - docker --version
+    - docker-compose --version
+  script:
+    - docker-compose run --rm postman
   tags:
     - docker
