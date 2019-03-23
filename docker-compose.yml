@@ -28,6 +28,6 @@ services:
   postman:
     image: postman/newman
     entrypoint: []
-    command: sh -c "sleep ${POSTMAN_SLEEP:-0} && newman run --global-var \"url=http://api:8080\" ${CI_PROJECT_DIR:-.}/postman/valtech-demo.postman_collection.json"
+    command: sh -c "sleep ${POSTMAN_SLEEP:-0} && newman run --global-var \"url=http://api:8080\" valtech-demo.postman_collection.json"
     depends_on:
       - api
