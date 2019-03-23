@@ -4,6 +4,9 @@ stages:
 
 image: registry.gitlab.com/jakubigla/docker-compose-image
 
+services:
+  - docker:dind
+
 api:
   stage: build
   before_script:
