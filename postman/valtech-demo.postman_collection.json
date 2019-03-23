@@ -1,0 +1,179 @@
+{
+	"info": {
+		"_postman_id": "4638fcd8-733e-40b6-917e-d2922d47e92e",
+		"name": "valtech-demo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create note",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "156b0b82-4ff6-4908-b9fb-d433d3f14bce",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Title added properly\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.title).to.equal(\"docker\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"title\": \"docker\", \"content\": \"containers are awesome\"}"
+				},
+				"url": {
+					"raw": "{{url}}/api/notes",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"notes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get notes (add)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0b5f597c-e7f8-40f3-ad0b-00842172382f",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"There is exactly one note added\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.length).to.eql(1);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/api/notes",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"notes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get notes (add) Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0b5f597c-e7f8-40f3-ad0b-00842172382f",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Body is empty\", function () {",
+							"    pm.response.to.have.body(\"\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/api/notes/1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"notes",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get notes (delete)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0b5f597c-e7f8-40f3-ad0b-00842172382f",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"There are no notes\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.length).to.eql(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/api/notes",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"notes"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

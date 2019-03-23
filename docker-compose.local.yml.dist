@@ -1,0 +1,13 @@
+version: "2.1"
+
+services:
+  api:
+    ports:
+      - 80:8080
+  sonar:
+    ports:
+      - 9000:9000
+
+  postman:
+    volumes:
+      - ./src/main/resources/postman-collections:/etc/newman

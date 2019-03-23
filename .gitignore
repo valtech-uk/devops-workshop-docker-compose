@@ -23,3 +23,7 @@ dist/
 nbdist/
 .nb-gradle/
 .elasticbeanstalk
+
+###
+.env
+docker-compose.local.yml
