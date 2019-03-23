@@ -1,3 +1,6 @@
+variables:
+  IMAGE_NAME: "${CI_REGISTRY_IMAGE}"
+
 stages:
   - build
   - test
@@ -7,11 +10,13 @@ image: registry.gitlab.com/jakubigla/docker-compose-image
 services:
   - docker:dind
 
+before_script:
+  - docker --version
+  - docker-compose --version
+  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+
 api:
   stage: build
-  before_script:
-    - docker --version
-    - docker-compose --version
   script:
     - docker-compose build api
     - docker-compose push api
@@ -20,9 +25,6 @@ api:
 
 integration:
   stage: test
-  before_script:
-    - docker --version
-    - docker-compose --version
   script:
     - docker-compose run --rm postman
   tags:
