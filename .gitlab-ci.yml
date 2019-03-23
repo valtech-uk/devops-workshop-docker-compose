@@ -29,6 +29,6 @@ integration:
   stage: test
   script:
     - docker-compose pull
-    - docker-compose run --rm -v "./postman:/etc/newman" postman
+    - docker-compose run --rm -v "$(pwd)/postman:/etc/newman" postman
   tags:
     - docker
