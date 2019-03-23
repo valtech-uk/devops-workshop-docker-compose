@@ -24,6 +24,9 @@ api:
     - docker
 
 integration:
+  variables:
+    COMPOSE_FILE: docker-compose.yml:docker-compose.dev.yml
+    POSTMAN_SLEEP: 15
   stage: test
   script:
     - docker-compose run --rm postman

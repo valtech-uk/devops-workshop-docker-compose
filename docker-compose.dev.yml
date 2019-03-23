@@ -15,6 +15,7 @@ services:
 
   postman:
     image: postman/newman
-    command: run --global-var "url=http://api:8080" valtech-demo.postman_collection.json
+    entrypoint: []
+    command: sh -c "sleep ${POSTMAN_SLEEP:-0} && newman run --global-var \"url=http://api:8080\" valtech-demo.postman_collection.json"
     depends_on:
       - api

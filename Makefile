@@ -1,3 +1,4 @@
+.PHONY : postman
 .DEFAULT_GOAL := build
 
 setup:
