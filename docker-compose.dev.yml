@@ -1,15 +1,6 @@
 version: "2.1"
 
 services:
-  api:
-    build:
-      args:
-        SONAR_ENABLED: "${SONAR_ENABLED:-false}"
-        SONAR_URL: "${SONAR_URL:-http://host.docker.internal:9000}"
-        SONAR_ORGANIZATION: "${SONAR_ORGANIZATION:-default-organization}"
-        SONAR_USERNAME: "${SONAR_USERNAME:-admin}"
-        SONAR_PASSWORD: "${SONAR_PASSWORD-admin}"
-        SONAR_BRANCH: "${SONAR_BRANCH:-}"
   sonar:
     image: sonarqube:latest
 

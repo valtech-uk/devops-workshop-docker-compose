@@ -7,6 +7,13 @@ services:
       - 80:8080
     build:
       context: .
+    environment:
+      SONAR_ENABLED: "${SONAR_ENABLED:-false}"
+      SONAR_URL: "${SONAR_URL:-http://host.docker.internal:9000}"
+      SONAR_ORGANIZATION: "${SONAR_ORGANIZATION:-default-organization}"
+      SONAR_USERNAME: "${SONAR_USERNAME:-admin}"
+      SONAR_PASSWORD: "${SONAR_PASSWORD-admin}"
+      SONAR_BRANCH: "${SONAR_BRANCH:-}"
     depends_on:
       - db
 
