@@ -4,10 +4,12 @@ services:
   api:
     ports:
       - 80:8080
+
   sonar:
+    image: sonarqube:latest
     ports:
       - 9000:9000
 
   postman:
     volumes:
-      - ./src/main/resources/postman-collections:/etc/newman
+      - ./postman:/etc/newman
