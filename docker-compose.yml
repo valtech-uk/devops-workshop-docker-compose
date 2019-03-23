@@ -2,9 +2,7 @@ version: "2.1"
 
 services:
   api:
-    image: "${IMAGE_NAME:-demo-api}"
-    ports:
-      - 80:8080
+    image: "${IMAGE_NAME:-valtech/demo-api}"
     build:
       context: .
     environment:
@@ -26,7 +24,10 @@ services:
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
 
   postman:
-    image: postman/newman
+    image: "${NEWMAN_IMAGE_NAME:-valtech/demo-api/newman}"
+    build:
+      context: .
+      dockerfile: Dockerfile.newman
     entrypoint: []
     command: sh -c "sleep ${POSTMAN_SLEEP:-0} && newman run --global-var \"url=http://api:8080\" valtech-demo.postman_collection.json"
     depends_on:

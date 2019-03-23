@@ -1,5 +1,6 @@
 variables:
   IMAGE_NAME: "${CI_REGISTRY_IMAGE}"
+  NEWMAN_IMAGE_NAME: "${CI_REGISTRY_IMAGE}/newman"
 
 stages:
   - build
@@ -18,17 +19,17 @@ before_script:
 api:
   stage: build
   script:
-    - docker-compose build api
-    - docker-compose push api
+    - docker-compose build api postman
+    - docker-compose push api postman
   tags:
     - docker
 
 integration:
   variables:
-    POSTMAN_SLEEP: 15
+    POSTMAN_SLEEP: 20
   stage: test
   script:
     - docker-compose pull
-    - docker-compose run --rm -v "$(pwd)/postman:/etc/newman" postman
+    - docker-compose run --rm postman
   tags:
     - docker

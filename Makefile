@@ -6,7 +6,7 @@ setup:
 	@[[ -e "docker-compose.local.yml" ]] || cp docker-compose.local.yml.dist docker-compose.local.yml
 
 build:
-	@docker-compose build api
+	@docker-compose build api postman
 
 run:
 	@docker-compose up api
