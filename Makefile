@@ -14,6 +14,9 @@ run:
 sonar:
 	@docker-compose up -d sonar
 
+liquibase:
+	@docker-compose up liquibase
+
 db-truncate:
 	@docker-compose up -d db
 	@docker-compose exec -T db sh -c \

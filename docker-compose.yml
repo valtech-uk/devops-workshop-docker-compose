@@ -14,6 +14,7 @@ services:
         SONAR_BRANCH: "${SONAR_BRANCH:-}"
     depends_on:
       - db
+      - liquibase
 
   db:
     image: mysql:5
@@ -22,6 +23,20 @@ services:
       MYSQL_PASSWORD: companyday
       MYSQL_DATABASE: notes_app
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+
+  liquibase:
+    image: kilna/liquibase-mysql
+    environment: 
+      LIQUIBASE_HOST: db
+      LIQUIBASE_DATABASE: notes_app
+      LIQUIBASE_USERNAME: demouser
+      LIQUIBASE_PASSWORD: companyday
+      LIQUIBASE_CHANGELOG: database-changelog.sql
+    volumes:
+      - ${PWD}/src/main/resources/database/database-changelog.sql:/workspace/database-changelog.sql
+    command: sh -c "sleep ${LIQUIBASE_SLEEP:-15} && liquibase update"
+    depends_on:
+      - db
 
   postman:
     image: "${NEWMAN_IMAGE_NAME:-valtech/demo-api/newman}"
