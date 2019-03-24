@@ -18,6 +18,9 @@ sonar-check:
 liquibase:
 	@docker-compose up liquibase
 
+liquibase:
+	@docker-compose up liquibase
+
 db-truncate:
 	@docker-compose up -d db
 	@docker-compose exec -T db sh -c \
