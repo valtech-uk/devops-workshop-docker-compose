@@ -12,11 +12,14 @@ build:
 run:
 	@docker-compose up api
 
+stop:
+	@docker-compose stop
+
 sonar-check:
 	@docker-compose run --rm sonar-check
 
 liquibase:
-	@docker-compose up liquibase
+	@docker-compose run --rm liquibase
 
 postman:
 	@docker-compose up postman

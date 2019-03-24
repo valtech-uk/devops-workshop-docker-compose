@@ -16,7 +16,7 @@ before_script:
   - docker-compose --version
   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
 
-build:
+maven:
   stage: build
   script:
     - docker-compose run --rm -v "$(pwd)/.m2:/root/.m2" maven
@@ -28,6 +28,16 @@ build:
   cache:
     paths:
       - .m2
+  tags:
+    - docker
+
+compose:
+  stage: build
+  script:
+    - docker-compose config > "docker-compose.${CI_COMMIT_SHORT_SHA}.yml"
+  artifacts:
+    paths:
+      - "docker-compose.${CI_COMMIT_SHORT_SHA}.yml"
   tags:
     - docker
 
