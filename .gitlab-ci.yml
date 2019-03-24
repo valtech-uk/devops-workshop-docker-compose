@@ -44,7 +44,7 @@ compose:
 quality:
   stage: test
   dependencies:
-    - build
+    - maven
   script:
     - docker-compose run --rm
         -v "$(pwd)/.sonar:/root/.sonar"
