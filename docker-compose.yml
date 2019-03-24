@@ -1,17 +1,9 @@
 version: "2.1"
 
 services:
-  maven:
-    image: maven:3
-    command: mvn clean install
-    working_dir: /workspace
-    volumes:
-      - .:/workspace
 
   api:
     image: "${IMAGE_NAME:-valtech/demo-api}"
-    build:
-      context: .
     depends_on:
       - liquibase
 
@@ -22,23 +14,10 @@ services:
       MYSQL_PASSWORD: companyday
       MYSQL_DATABASE: notes_app
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
-
-  sonar-check:
-    extends: maven
-    command: |
-      mvn -B sonar:sonar
-         -Dsonar.host.url=${SONAR_URL:-http://sonar:9000}
-         -Dsonar.organization=${SONAR_ORGANIZATION:-default-organization}
-         -Dsonar.login=${SONAR_USERNAME:-admin}
-         -Dsonar.password=${SONAR_PASSWORD:-admin}
-         -Dsonar.branch.name=${SONAR_BRANCH:-}
          
   liquibase:
     image: "${LIQUIBASE_IMAGE_NAME:-valtech/demo-api/liquibase}"
-    build:
-      context: .
-      dockerfile: Dockerfile.liquibase
-    environment: 
+    environment:
       LIQUIBASE_HOST: db
       LIQUIBASE_DATABASE: notes_app
       LIQUIBASE_USERNAME: demouser
@@ -50,9 +29,6 @@ services:
 
   postman:
     image: "${NEWMAN_IMAGE_NAME:-valtech/demo-api/newman}"
-    build:
-      context: .
-      dockerfile: Dockerfile.newman
     entrypoint: []
     command: sh -c "sleep ${POSTMAN_SLEEP:-5} && newman run --global-var \"url=http://api:8080\" valtech-demo.postman_collection.json"
     depends_on:

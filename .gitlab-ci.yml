@@ -2,6 +2,7 @@ variables:
   IMAGE_NAME: "${CI_REGISTRY_IMAGE}"
   NEWMAN_IMAGE_NAME: "${CI_REGISTRY_IMAGE}/newman"
   LIQUIBASE_IMAGE_NAME: "${CI_REGISTRY_IMAGE}/liquibase"
+  COMPOSE_FILE: docker-compose.yml:docker-compose.build.yml
 
 stages:
   - build
@@ -49,6 +50,8 @@ liquibase:
     - docker
 
 compose:
+  variables:
+    COMPOSE_FILE: docker-compose.yml
   stage: build
   script:
     - docker-compose config > "docker-compose.${CI_COMMIT_SHORT_SHA}.yml"

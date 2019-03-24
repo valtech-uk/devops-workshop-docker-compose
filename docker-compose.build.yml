@@ -1,0 +1,33 @@
+version: "2.1"
+
+services:
+  maven:
+    image: maven:3
+    command: mvn clean install
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
+
+  sonar-check:
+    extends: maven
+    command: |
+      mvn -B sonar:sonar
+         -Dsonar.host.url=${SONAR_URL:-http://sonar:9000}
+         -Dsonar.organization=${SONAR_ORGANIZATION:-default-organization}
+         -Dsonar.login=${SONAR_USERNAME:-admin}
+         -Dsonar.password=${SONAR_PASSWORD:-admin}
+         -Dsonar.branch.name=${SONAR_BRANCH:-}
+
+  api:
+    build:
+      context: .
+
+  liquibase:
+    build:
+      context: .
+      dockerfile: Dockerfile.liquibase
+
+  postman:
+    build:
+      context: .
+      dockerfile: Dockerfile.newman
