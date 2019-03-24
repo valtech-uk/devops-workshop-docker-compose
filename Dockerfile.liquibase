@@ -1,0 +1,3 @@
+FROM kilna/liquibase-mysql
+
+COPY src/main/resources/database/database-changelog.sql /workspace/database-changelog.sql

@@ -34,15 +34,16 @@ services:
          -Dsonar.branch.name=${SONAR_BRANCH:-}
          
   liquibase:
-    image: kilna/liquibase-mysql
+    image: "${LIQUIBASE_IMAGE_NAME:-valtech/demo-api/liquibase}"
+    build:
+      context: .
+      dockerfile: Dockerfile.liquibase
     environment: 
       LIQUIBASE_HOST: db
       LIQUIBASE_DATABASE: notes_app
       LIQUIBASE_USERNAME: demouser
       LIQUIBASE_PASSWORD: companyday
       LIQUIBASE_CHANGELOG: database-changelog.sql
-    volumes:
-      - ${PWD}/src/main/resources/database/database-changelog.sql:/workspace/database-changelog.sql
     command: sh -c "sleep ${LIQUIBASE_SLEEP:-15} && liquibase update"
     depends_on:
       - db

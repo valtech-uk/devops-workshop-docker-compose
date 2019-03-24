@@ -7,7 +7,7 @@ setup:
 
 build:
 	@docker-compose run --rm maven
-	@docker-compose build api postman
+	@docker-compose build api postman liquibase
 
 run:
 	@docker-compose up api
