@@ -9,7 +9,10 @@ services:
       - .:/workspace
 
   sonar-check:
-    extends: maven
+    image: maven:3
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
     command: |
       mvn -B sonar:sonar
          -Dsonar.host.url=${SONAR_URL:-http://sonar:9000}
