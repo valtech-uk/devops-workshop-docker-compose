@@ -7,11 +7,9 @@ setup:
 
 build:
 	@docker-compose run --rm maven
-
-dockerize:
 	@docker-compose build api postman
 
-run: dockerize
+run:
 	@docker-compose up api
 
 sonar-check:
