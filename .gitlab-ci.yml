@@ -2,6 +2,7 @@ variables:
   IMAGE_NAME: "${CI_REGISTRY_IMAGE}"
   NEWMAN_IMAGE_NAME: "${CI_REGISTRY_IMAGE}/newman"
 
+
 stages:
   - build
   - analyse
@@ -21,10 +22,13 @@ before_script:
 build:
   stage: build
   script:
-    - docker-compose run --rm maven
+    - docker-compose run --rm -v ".m2:/root/.m2" maven
   artifacts:
     paths:
       - target/*
+  cache:
+    paths:
+      - .m2
   tags:
     - docker
 
@@ -33,7 +37,14 @@ sonar:
   dependencies:
     - build
   script:
-    - docker-compose run --rm sonar-check
+    - docker-compose run --rm
+        -v ".sonar:/root/.sonar"
+        -v ".m2:/root/.m2"
+      sonar-check
+  cache:
+    paths:
+      - .m2
+      - .sonar
   tags:
     - docker
 
