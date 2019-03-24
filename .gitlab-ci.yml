@@ -17,21 +17,44 @@ before_script:
   - docker-compose --version
   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
 
-maven:
+api:
   stage: build
   script:
     - docker-compose run --rm -v "$(pwd)/.m2:/root/.m2" maven
-    - docker-compose build api postman
-    - docker-compose push api postman
-  after_script:
-    - docker-compose config > "docker-compose.${CI_COMMIT_SHORT_SHA}.yml"
+    - docker-compose build api
+    - docker-compose push api
   artifacts:
     paths:
       - target/*
-      - "docker-compose.${CI_COMMIT_SHORT_SHA}.yml"
   cache:
     paths:
       - .m2
+  tags:
+    - docker
+
+postman:
+  stage: build
+  script:
+    - docker-compose build postman
+    - docker-compose push postman
+  tags:
+    - docker
+
+liquibase:
+  stage: build
+  script:
+    - docker-compose build liquibase
+    - docker-compose push liquibase
+  tags:
+    - docker
+
+compose:
+  stage: build
+  script:
+    - docker-compose config > "docker-compose.${CI_COMMIT_SHORT_SHA}.yml"
+  artifacts:
+    paths:
+      - "docker-compose.${CI_COMMIT_SHORT_SHA}.yml"
   tags:
     - docker
 
