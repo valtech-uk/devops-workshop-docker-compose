@@ -16,11 +16,34 @@ before_script:
   - docker-compose --version
   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
 
-api:
+build:
   stage: build
   script:
+    - docker-compose run --rm -v "$(pwd)/.m2:/root/.m2" maven
     - docker-compose build api postman
     - docker-compose push api postman
+  artifacts:
+    paths:
+      - target/*
+  cache:
+    paths:
+      - .m2
+  tags:
+    - docker
+
+quality:
+  stage: test
+  dependencies:
+    - build
+  script:
+    - docker-compose run --rm
+        -v "$(pwd)/.sonar:/root/.sonar"
+        -v "$(pwd)/.m2:/root/.m2"
+      sonar-check
+  cache:
+    paths:
+      - .m2
+      - .sonar
   tags:
     - docker
 

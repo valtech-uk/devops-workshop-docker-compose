@@ -6,13 +6,17 @@ setup:
 	@[[ -e "docker-compose.local.yml" ]] || cp docker-compose.local.yml.dist docker-compose.local.yml
 
 build:
+	@docker-compose run --rm maven
 	@docker-compose build api postman
 
 run:
 	@docker-compose up api
 
-sonar:
-	@docker-compose up -d sonar
+sonar-check:
+	@docker-compose run --rm sonar-check
+
+liquibase:
+	@docker-compose up liquibase
 
 liquibase:
 	@docker-compose up liquibase
@@ -22,5 +26,5 @@ db-truncate:
 	@docker-compose exec -T db sh -c \
 		'exec mysql -u$$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE' <<< "TRUNCATE notes;" 2> /dev/null
 
-postman: db-truncate
+test: db-truncate
 	@docker-compose run --rm postman
