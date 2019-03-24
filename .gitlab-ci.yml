@@ -2,11 +2,8 @@ variables:
   IMAGE_NAME: "${CI_REGISTRY_IMAGE}"
   NEWMAN_IMAGE_NAME: "${CI_REGISTRY_IMAGE}/newman"
 
-
 stages:
   - build
-  - analyse
-  - ship
   - test
 
 image: registry.gitlab.com/jakubigla/docker-compose-image
@@ -23,6 +20,8 @@ build:
   stage: build
   script:
     - docker-compose run --rm -v "$(pwd)/.m2:/root/.m2" maven
+    - docker-compose build api postman
+    - docker-compose push api postman
   artifacts:
     paths:
       - target/*
@@ -32,8 +31,8 @@ build:
   tags:
     - docker
 
-sonar:
-  stage: analyse
+quality:
+  stage: test
   dependencies:
     - build
   script:
@@ -45,16 +44,6 @@ sonar:
     paths:
       - .m2
       - .sonar
-  tags:
-    - docker
-
-dockerize:
-  stage: ship
-  dependencies:
-    - build
-  script:
-    - docker-compose build api postman
-    - docker-compose push api postman
   tags:
     - docker
 
