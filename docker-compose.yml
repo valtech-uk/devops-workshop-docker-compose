@@ -5,7 +5,7 @@ services:
   api:
     image: "${IMAGE_NAME:-valtech/demo-api}"
     depends_on:
-      - liquibase
+      - db
 
   db:
     image: mysql:5
