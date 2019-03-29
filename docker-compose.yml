@@ -1,0 +1,15 @@
+version: "2.1"
+
+services:
+  maven:
+    image: maven:3
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
+      - "~/.m2:/root/.m2"
+    command: mvn clean install
+
+  api:
+    build:
+      context: .
+    image: valtech/demo
